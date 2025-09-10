@@ -60,7 +60,7 @@ soup = BeautifulSoup(page.content, 'html.parser')
 
 name_soup = soup.find(id = 'productTitle')
 
-name = name_soup.text.strip()
+name = name_soup.get_text(strip=True)
 
 price_soup = soup.find(class_ = 'a-price-whole')
 price = price_soup.text.strip(".").replace(",","")
@@ -74,3 +74,4 @@ new_row = {'Name': name, 'Price': price, 'Date': day}
 
 df = pd.concat([df,pd.DataFrame([new_row])], ignore_index=True)
 print(df)
+
