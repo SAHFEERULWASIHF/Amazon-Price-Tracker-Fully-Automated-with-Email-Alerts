@@ -1,12 +1,28 @@
-import smtplib
 import os
+import requests
+from bs4 import BeautifulSoup
+import csv
+import datetime
+import smtplib
 
-def send_mail(curr_price):
-    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    server.ehlo()
-    server.login(EMAIL, PASSWORD)
-    
-    subject = "MacBook is in sale - my prject call"
+EMAIL = os.getenv('EMAIL')
+PASSWORD = os.getenv('EMAIL_PASSWORD') 
+TO_EMAIL = os.getenv('TO_EMAIL') 
+PRICE_THRESHOLD = 100000 
+CSV_FILE = r"amezonWebScrapping/Amezon_web_Scraping_Project.csv"
+
+URL = r"https://www.amazon.in/Apple-MacBook-13-inch-10-core-Unified/dp/B0DZF1485D/ref=sr_1_13?crid=D6ZBLXYF6MZR&dib=eyJ2IjoiMSJ9.2IFLHkotYlL4BG4BUZf33JVCUcDkw7lossku0F_J22DDcAdtXjSR0VUbIx2_ccCjR56phumSBAYkL8oL3O7e8ppnX6aqBLfnFUzBSNa01vIGMqCzS2yL1V5RsxsZu4w5YW0tmcFUzMJY5g_WUdyiGlQNEbF1vu0q-0H6BuOJrZ3hlyjvFrrKy6FiIJdOfgQzjxyQg_gzpY9OZzSmcve1816GL796U_364LyroXlwaa4.UUAZ54Ypp4CBSoyu277X9WTQfhdVINFCwpnkyErOp4s&dib_tag=se&keywords=mac%2Bbook&qid=1757481962&sprefix=mac%2Bbo%2Caps%2C713&sr=8-13&th=1"
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/138.0.7204.185 Safari/537.36",
+    "Accept-Language": "en-US,en;q=0.9"
+}
+
+# --- Functions ---
+def send_mail(current_price):
+    subject = "MacBook is on sale! - My Project results"
     body = f"""Dear me!,
     
 The MacBook you were waiting for is now on sale.  
@@ -20,74 +36,64 @@ I'm waiting for it to go under 100k to buy. Now it must be under 1 lakh to end u
 Go buy this!  
     
 The link I used for web scraping must still work. Try the link:  
-https://www.amazon.in/Apple-MacBook-13-inch-10-core-Unified/dp/B0DZF1485D/ref=sr_1_13?crid=D6ZBLXYF6MZR&dib=eyJ2IjoiMSJ9.2IFLHkotYlL4BG4BUZf33JVCUcDkw7lossku0F_J22DDcAdtXjSR0VUbIx2_ccCjR56phumSBAYkL8oL3O7e8ppnX6aqBLfnFUzBSNa01vIGMqCzS2yL1V5RsxsZu4w5YW0tmcFUzMJY5g_WUdyiGlQNEbF1vu0q-0H6BuOJrZ3hlyjvFrrKy6FiIJdOfgQzjxyQg_gzpY9OZzSmcve1816GL796U_364LyroXlwaa4.UUAZ54Ypp4CBSoyu277X9WTQfhdVINFCwpnkyErOp4s&dib_tag=se&keywords=mac%2Bbook&qid=1757481962&sprefix=mac%2Bbo%2Caps%2C713&sr=8-13&th=1
+{url}
 
 current price: {curr_price}
 Happy purchase!
 """
-    
-    
-    msg = f"subject: {subject}\n\n{body}"
-    EMAIL = os.getenv('EMAIL')
-    PASSWORD = os.getenv('EMAIL_PASSWORD')
-    TO_EMAIL = os.getenv('TO_EMAIL')
-    
-    server.sendmail(from_addr=EMAIL, to_addrs=TO_EMAIL, msg=msg)
 
-# mail function is loaded on top
+    msg = f"Subject: {subject}\n\n{body}"
 
-import requests 
-from bs4 import BeautifulSoup 
-    
-def check_price(i): 
-    
-    url = r"https://www.amazon.in/Apple-MacBook-13-inch-10-core-Unified/dp/B0DZF1485D/ref=sr_1_13?crid=D6ZBLXYF6MZR&dib=eyJ2IjoiMSJ9.2IFLHkotYlL4BG4BUZf33JVCUcDkw7lossku0F_J22DDcAdtXjSR0VUbIx2_ccCjR56phumSBAYkL8oL3O7e8ppnX6aqBLfnFUzBSNa01vIGMqCzS2yL1V5RsxsZu4w5YW0tmcFUzMJY5g_WUdyiGlQNEbF1vu0q-0H6BuOJrZ3hlyjvFrrKy6FiIJdOfgQzjxyQg_gzpY9OZzSmcve1816GL796U_364LyroXlwaa4.UUAZ54Ypp4CBSoyu277X9WTQfhdVINFCwpnkyErOp4s&dib_tag=se&keywords=mac%2Bbook&qid=1757481962&sprefix=mac%2Bbo%2Caps%2C713&sr=8-13&th=1"
-    my_headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                      "AppleWebKit/537.36 (KHTML, like Gecko) "
-                      "Chrome/138.0.7204.185 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.9"
-    }
-    
-    page = requests.get(url, headers=my_headers)
-    
-    soup = BeautifulSoup(page.content,'html.parser') 
-    
-    price_soup = soup.find(class_ = 'a-price-whole')
-    price = price_soup.text.strip(".")
-    
-    name_soup = soup.find(id = 'productTitle')
-    name = name_soup.text.strip()
-    
-    import datetime
-    day = datetime.date.today()
-    
-    if not os.path.exists(r"amezonWebScrapping"):
-        os.mkdir("amezonWebScrapping")
-        print('amezonWebScrapping folder created successfully!')
-    
-    file_exists = os.path.isfile(r"amezonWebScrapping/Amezon_web_Scraping_Project.csv")
-    
-    import csv
-    
-    with open('amezonWebScrapping/Amezon_web_Scraping_Project.csv','a',newline='', encoding='UTF8') as f:
-        
-        writer = csv.writer(f)
-        
-        if not file_exists: 
-            writer.writerow(['Name','Price','Date'])
-            print('csv file not existed before.\ncsv file created with headers succesfully!')
-        writer.writerow([name, price, day])
-        print(f'{i} - Data appended successfully')
+    try:
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.ehlo()
+        server.login(EMAIL, PASSWORD)
+        server.sendmail(from_addr=EMAIL, to_addrs=TO_EMAIL, msg=msg)
+        server.quit()
+        print("✅ Email sent successfully.")
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
 
-    int_price = int(price.replace(",",""))
 
-    if int_price < 100000: 
-        send_mail(price)
+def check_price():
+    try:
+        page = requests.get(URL, headers=HEADERS)
+        soup = BeautifulSoup(page.content,'html.parser')
 
-import time
+        # Get product title
+        name_soup = soup.find(id = 'productTitle')
+        if not name_soup:
+            print("❌ Product title not found")
+            return
+        name = name_soup.text.strip()
 
-data_appended = 1
+        # Get price
+        price_soup = soup.find(class_ = 'a-price-whole')
+        if not price_soup:
+            print("❌ Price not found")
+            return
+        price_soup = price_soup.strip(".")
+        price_text = price_soup.text.replace(",", "")
+        current_price = int(price_text)
 
+        # Log to CSV
+        date_str = datetime.date.today()
+        file_exists = os.path.isfile(CSV_FILE)
+        with open(CSV_FILE, 'a', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                writer.writerow(['Name', 'Price', 'Date'])
+            writer.writerow([name, current_price, date_str])
+        print(f"✅ Logged price: ₹{current_price}")
+
+        # Send email if price is below threshold
+        if current_price < PRICE_THRESHOLD:
+            send_mail(current_price)
+
+    except Exception as e:
+        print(f"❌ Error checking price: {e}")
+
+
+# --- Run ---
 if __name__ == "__main__":
-    check_price(data_appended)
+    check_price()
