@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests==2.31.0 beautifulsoup4==4.12.2 pandas==2.1.0 PyGithub>=1.72
+          pip install requests beautifulsoup pandas PyGithub
       - name: Run tracker script
         env:
           PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
