@@ -58,9 +58,7 @@ page = requests.get(url, headers = HEADERS)
 
 soup = BeautifulSoup(page.content, 'html.parser')
 
-name_soup = soup.find(id = 'productTitle')
-
-name = name_soup.get_text(strip=True)
+name = 'Apple 2025 MacBook Air (13-inch, Apple M4 chip with 10-core CPU and 10-core GPU, 24GB Unified Memory, 512GB) - Sky Blue'
 
 price_soup = soup.find(class_ = 'a-price-whole')
 price = price_soup.text.strip(".").replace(",","")
@@ -74,4 +72,5 @@ new_row = {'Name': name, 'Price': price, 'Date': day}
 
 df = pd.concat([df,pd.DataFrame([new_row])], ignore_index=True)
 print(df)
+
 
