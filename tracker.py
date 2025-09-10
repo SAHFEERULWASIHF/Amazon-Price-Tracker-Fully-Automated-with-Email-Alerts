@@ -63,12 +63,13 @@ page = requests.get(url, headers = headers)
 soup = BeautifulSoup(page.content, 'html.parser')
 
 name_soup = soup.find(id = 'productTitle')
-
 name = name_soup.text.strip()
-print(name)
+
+price_soup = soup.find(class_ = 'a-price-whole')
+price = price_soup.text.strip()
+print(name, price)
   
-  
-  
+
 
 
 
