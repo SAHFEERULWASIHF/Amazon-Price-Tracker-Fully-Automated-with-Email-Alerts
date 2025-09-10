@@ -24,8 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4 pandas csv datetime smtplib os
-
+          pip install requests beautifulsoup4 pandas
       - name: Run tracker script
         env:
           EMAIL: ${{ secrets.EMAIL }}
