@@ -9,7 +9,7 @@ import smtplib
 import io
 import re
 
-# -------------------- CONFIG --------------------
+
 GITHUB_TOKEN = os.getenv("PUBLIC_REPO_TOKEN")
 REPO_NAME = "SAHFEERULWASIHF/Amazon-MacBook-Price-Tracker"
 FILE_PATH = "amezonWebScrapping/Amezon_web_Scraping_Project.csv"
@@ -31,7 +31,7 @@ HEADERS = {
         "Referer": "https://www.google.com/"
 }
 
-# -------------------- FUNCTIONS --------------------
+
 def send_mail(current_price):
     subject = "MacBook is on sale! - My Project"
     body = f"""Dear me!,
@@ -149,7 +149,7 @@ def check_price():
     if current_price < PRICE_THRESHOLD:
         send_mail(current_price)
 
-# -------------------- RUN --------------------
+
 if __name__ == "__main__":
     check_price()
 
