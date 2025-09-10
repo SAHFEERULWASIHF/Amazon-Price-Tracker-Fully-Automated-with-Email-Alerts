@@ -78,8 +78,9 @@ def check_price():
         
         price_text = price_soup.get_text(strip=True)
         # Remove currency and commas
-        price_text = price_text.replace("₹", "").replace(",", "").replace(".","")
-        current_price = int("".join(filter(str.isdigit, price_text)))
+        price_text = price_text.replace("₹", "").replace(",", "")
+        current_price = int(float(price_text))
+        # current_price = int("".join(filter(str.isdigit, price_text)))
 
 
         # Log to CSV
@@ -103,6 +104,7 @@ def check_price():
 # --- Run ---
 if __name__ == "__main__":
     check_price()
+
 
 
 
