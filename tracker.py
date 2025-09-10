@@ -57,15 +57,12 @@ page = requests.get(url, headers = HEADERS)
 
 soup = BeautifulSoup(page.content, 'html.parser')
 
-print(soup)
+name_soup = soup.find(id = 'productTitle')
 
-"""name_soup = soup.find(id = 'productTitle')
 name = name_soup.text.strip()
 
 price_soup = soup.find(class_ = 'a-price-whole')
-price_txt = price_soup.text.strip()
+price = price_soup.text.strip(".").replace(",","")
 
-price = price_text.replace("₹", "").replace(",", "").replace(".","")
-print(name, price)
-"""
+print(name , price)
 
