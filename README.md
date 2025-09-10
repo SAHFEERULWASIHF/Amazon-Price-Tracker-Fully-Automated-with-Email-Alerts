@@ -1,4 +1,4 @@
-# Amazon MacBook Price Tracker – Fully Automated & Email Alerts
+# Amazon Price Tracker – Fully Automated & Email Alerts
 
 Keep track of MacBook prices on **Amazon India** effortlessly! This project automatically logs daily price changes to a CSV file in this GitHub repository and sends an email alert when the price drops below your specified threshold. Fully automated using **GitHub Actions**, so it works even when your computer is off.
 
