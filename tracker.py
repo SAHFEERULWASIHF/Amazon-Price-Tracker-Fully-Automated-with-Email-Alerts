@@ -20,9 +20,8 @@ I'm waiting for it to go under 100k to buy. Now it must be under 1 lakh to end u
 Go buy this!  
 
 The link I used for web scraping must still work. Try the link:  
-{URL}
 
-current price: {current_price}
+current price: 
 Happy purchase!
 """
 
@@ -34,6 +33,7 @@ server.login(EMAIL, PASSWORD)
 server.sendmail(from_addr=EMAIL, to_addrs=TO_EMAIL, msg=msg)
 server.quit()
 print("✅ Email sent successfully.")
+
 
 
 
