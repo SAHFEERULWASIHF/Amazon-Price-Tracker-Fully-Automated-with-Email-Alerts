@@ -1,0 +1,29 @@
+name: Amazon MacBook Price Tracker
+
+on:
+  schedule:
+    - cron: '30 12 * * *'  # daily at 6:00 PM Sri Lanka time
+  workflow_dispatch:       # allows manual run
+
+jobs:
+  price_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Run tracker script
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python tracker.py
