@@ -44,10 +44,15 @@ url = r"https://www.amazon.in/Apple-MacBook-13-inch-10-core-Unified/dp/B0DZF1485
 page = requests.get(url)
 
 soup = BeautifulSoup(page.content, 'html.parser')
-print(soup.prettify())
+
+name_soup = soup.find(id = 'productTitle')
+
+name = name_soup.text.strip()
+print(name)
   
   
   
+
 
 
 
