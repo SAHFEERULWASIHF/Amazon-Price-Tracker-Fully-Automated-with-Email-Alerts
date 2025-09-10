@@ -66,9 +66,12 @@ name_soup = soup.find(id = 'productTitle')
 name = name_soup.text.strip()
 
 price_soup = soup.find(class_ = 'a-price-whole')
-price = price_soup.text.strip()
-print(name, price)
+price_txt = price_soup.text.strip()
+
+price = price_text.replace("₹", "").replace(",", "").replace(".","")
+print(price)
   
+
 
 
 
