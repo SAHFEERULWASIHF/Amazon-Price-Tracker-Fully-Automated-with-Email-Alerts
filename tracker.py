@@ -2,9 +2,11 @@ import os
 import requests
 import smtplib
 
-EMAIL = os.getenv('EMAIL')
-PASSWORD = os.getenv('EMAIL_PASSWORD')
-TO_EMAIL = os.getenv('TO_EMAIL')
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("EMAIL_PASSWORD")
+TO_EMAIL = os.getenv("TO_EMAIL")
+
+print(EMAIL)
 
 subject = "MacBook is on sale! - My Project results"
 body = f"""Dear me!,
@@ -23,6 +25,9 @@ The link I used for web scraping must still work. Try the link:
 
 current price: 
 Happy purchase!
+
+{EMAIL},
+{PASSWORD}
 """
 
 msg = f"Subject: {subject}\n\n{body}"
@@ -33,6 +38,7 @@ server.login(EMAIL, PASSWORD)
 server.sendmail(from_addr=EMAIL, to_addrs=TO_EMAIL, msg=msg)
 server.quit()
 print("✅ Email sent successfully.")
+
 
 
 
