@@ -63,6 +63,7 @@ name = 'Apple 2025 MacBook Air (13-inch, Apple M4 chip with 10-core CPU and 10-c
 
 price_soup = soup.find(class_ = 'a-price-whole')
 price = price_soup.text.strip(".").replace(",","")
+print(price)
 
 day = datetime.date.today()
 
@@ -73,6 +74,7 @@ new_row = {'Name': name, 'Price': price, 'Date': day}
 
 df = pd.concat([df,pd.DataFrame([new_row])], ignore_index=True)
 print(df)
+
 
 
 
