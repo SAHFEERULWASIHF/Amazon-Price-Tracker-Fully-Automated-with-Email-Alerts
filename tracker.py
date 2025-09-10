@@ -36,9 +36,9 @@ I'm waiting for it to go under 100k to buy. Now it must be under 1 lakh to end u
 Go buy this!  
     
 The link I used for web scraping must still work. Try the link:  
-{url}
+{URL}
 
-current price: {curr_price}
+current price: {current_price}
 Happy purchase!
 """
 
@@ -103,6 +103,7 @@ def check_price():
 # --- Run ---
 if __name__ == "__main__":
     check_price()
+
 
 
 
