@@ -20,7 +20,6 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9"
 }
 
-# --- Functions ---
 def send_mail(current_price):
     subject = "MacBook is on sale! - My Project results"
     body = f"""Dear me!,
@@ -44,67 +43,48 @@ Happy purchase!
 
     msg = f"Subject: {subject}\n\n{body}"
 
-    try:
-        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server.ehlo()
-        server.login(EMAIL, PASSWORD)
-        server.sendmail(from_addr=EMAIL, to_addrs=TO_EMAIL, msg=msg)
-        server.quit()
-        print("✅ Email sent successfully.")
-    except Exception as e:
-        print(f"❌ Failed to send email: {e}")
-
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.ehlo()
+    server.login(EMAIL, PASSWORD)
+    server.sendmail(from_addr=EMAIL, to_addrs=TO_EMAIL, msg=msg)
+    server.quit()
+    print("✅ Email sent successfully.")
 
 def check_price():
-    try:
-        page = requests.get(URL, headers=HEADERS)
-        print(page)
-        soup = BeautifulSoup(page.content,'html.parser')
+    page = requests.get(URL, headers=HEADERS)
+    soup = BeautifulSoup(page.content,'html.parser')
 
-        # Get product title
-        name_soup = soup.find(id = 'productTitle')
-        if not name_soup:
-            print("❌ Product title not found")
-            return
-        name = name_soup.text.strip()
+    # Get product title
+    name_soup = soup.find(id = 'productTitle')
+    name = name_soup.text.strip()
 
-        # Get price
-        # Try multiple selectors for price
-        price_soup = soup.select_one("span.a-price .a-offscreen") \
-                        or soup.select_one("span.a-price-whole")
-
-        if not price_soup:
-            print("❌ Price not found")
-            return
-        
-        price_text = price_soup.get_text(strip=True)
-        # Remove currency and commas
-        price_text = price_text.replace("₹", "").replace(",", "")
-        current_price = int(float(price_text))
-        # current_price = int("".join(filter(str.isdigit, price_text)))
+    price_soup = soup.select_one("span.a-price .a-offscreen") \
+                    or soup.select_one("span.a-price-whole")
+    
+    price_text = price_soup.get_text(strip=True)
+    price_text = price_text.replace("₹", "").replace(",", "")
+    current_price = int(float(price_text))
+    # current_price = int("".join(filter(str.isdigit, price_text)))
 
 
-        # Log to CSV
-        date_str = datetime.date.today()
-        file_exists = os.path.isfile(CSV_FILE)
-        with open(CSV_FILE, 'a', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            if not file_exists:
-                writer.writerow(['Name', 'Price', 'Date'])
-            writer.writerow([name, current_price, date_str])
-        print(f"✅ Logged price: ₹{current_price}")
+    # Log to CSV
+    date_str = datetime.date.today()
+    file_exists = os.path.isfile(CSV_FILE)
+    with open(CSV_FILE, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(['Name', 'Price', 'Date'])
+        writer.writerow([name, current_price, date_str])
+    print(f"✅ Logged price: ₹{current_price}")
 
-        # Send email if price is below threshold
-        if current_price < PRICE_THRESHOLD:
-            send_mail(current_price)
-
-    except Exception as e:
-        print(f"❌ Error checking price: {e}")
-
+    # Send email if price is below threshold
+    if current_price < PRICE_THRESHOLD:
+        send_mail(current_price)
 
 # --- Run ---
 if __name__ == "__main__":
     check_price()
+
 
 
 
