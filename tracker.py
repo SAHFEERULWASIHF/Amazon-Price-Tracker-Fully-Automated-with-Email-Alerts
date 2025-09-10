@@ -92,4 +92,5 @@ data_appended = 1
 while(True): 
     check_price(data_appended)
     data_appended += 1
-    time.sleep(5)
+
+    time.sleep(60*60*24)
