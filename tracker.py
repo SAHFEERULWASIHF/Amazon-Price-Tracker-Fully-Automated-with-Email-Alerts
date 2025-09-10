@@ -147,11 +147,12 @@ def check_price():
 
     # Send email if price is below threshold
     if current_price < PRICE_THRESHOLD:
-        send_mail(current_price-30000)
+        send_mail(current_price)
 
 # -------------------- RUN --------------------
 if __name__ == "__main__":
     check_price()
+
 
 
 
