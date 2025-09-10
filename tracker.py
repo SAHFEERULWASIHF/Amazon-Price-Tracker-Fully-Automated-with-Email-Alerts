@@ -68,13 +68,19 @@ def check_price():
         name = name_soup.text.strip()
 
         # Get price
-        price_soup = soup.find(class_ = 'a-price-whole')
+        # Try multiple selectors for price
+        price_soup = soup.select_one("span.a-price .a-offscreen") \
+                        or soup.select_one("span.a-price-whole")
+
         if not price_soup:
             print("❌ Price not found")
             return
-        price_soup = price_soup.text.strip(".")
-        price_text = price_soup.replace(",", "")
-        current_price = int(price_text)
+        
+        price_text = price_soup.get_text(strip=True)
+        # Remove currency and commas
+        price_text = price_text.replace("₹", "").replace(",", "").replace(".","")
+        current_price = int("".join(filter(str.isdigit, price_text)))
+
 
         # Log to CSV
         date_str = datetime.date.today()
@@ -97,5 +103,6 @@ def check_price():
 # --- Run ---
 if __name__ == "__main__":
     check_price()
+
 
 
