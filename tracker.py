@@ -89,8 +89,5 @@ import time
 
 data_appended = 1
 
-while(True): 
+if __name__ == "__main__":
     check_price(data_appended)
-    data_appended += 1
-
-    time.sleep(60*60*24)
