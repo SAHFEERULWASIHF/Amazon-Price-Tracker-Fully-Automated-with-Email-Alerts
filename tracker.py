@@ -72,8 +72,8 @@ def check_price():
         if not price_soup:
             print("❌ Price not found")
             return
-        price_soup = price_soup.strip(".")
-        price_text = price_soup.text.replace(",", "")
+        price_soup = price_soup.strip()
+        price_text = price_soup.replace(",", "")
         current_price = int(price_text)
 
         # Log to CSV
@@ -97,3 +97,4 @@ def check_price():
 # --- Run ---
 if __name__ == "__main__":
     check_price()
+
