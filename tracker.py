@@ -7,6 +7,7 @@ import datetime
 from github import Github, Auth
 import smtplib
 import io
+import re
 
 # -------------------- CONFIG --------------------
 GITHUB_TOKEN = os.getenv("PUBLIC_REPO_TOKEN")
@@ -127,11 +128,13 @@ def check_price():
     name = name_soup.get_text(strip=True)
 
     # Scrape price
-    price_soup = soup.select_one("span.a-price span.a-offscreen")
+    price_soup = soup.find(class_ = 'aok-offscreen')
     if not price_soup:
         print("❌ Price not found")
         return
     price_text = price_soup.get_text(strip=True).replace("₹","").replace(",","")
+    price_text = re.sub(r'[A-Za-z]', '', price_text)
+    price_text = price_text.split(' ')[0]
     current_price = int(float(price_text))
 
     # Append to GitHub CSV
@@ -149,3 +152,4 @@ def check_price():
 # -------------------- RUN --------------------
 if __name__ == "__main__":
     check_price()
+
