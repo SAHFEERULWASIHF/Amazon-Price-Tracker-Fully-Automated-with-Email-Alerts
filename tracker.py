@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import csv
 import datetime
 import smtplib
+import pandas as pd 
 
 
 def send_email():
@@ -64,5 +65,12 @@ name = name_soup.text.strip()
 price_soup = soup.find(class_ = 'a-price-whole')
 price = price_soup.text.strip(".").replace(",","")
 
-print(name , price)
+day = datetime.date.today()
 
+csv_url = "https://raw.githubusercontent.com/SAHFEERULWASIHF/Amazon-MacBook-Price-Tracker/main/amezonWebScrapping/Amezon_web_Scraping_Project.csv"
+df = pd.read_csv(csv_url)
+
+new_row = {'Name': name, 'Price': price, 'Date': day}
+
+df = pd.concat([df,pd.DataFrame([new_row])], ignore_index=True)
+print(df)
