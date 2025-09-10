@@ -58,6 +58,7 @@ Happy purchase!
 def check_price():
     try:
         page = requests.get(URL, headers=HEADERS)
+        print(page)
         soup = BeautifulSoup(page.content,'html.parser')
 
         # Get product title
@@ -104,6 +105,7 @@ def check_price():
 # --- Run ---
 if __name__ == "__main__":
     check_price()
+
 
 
 
