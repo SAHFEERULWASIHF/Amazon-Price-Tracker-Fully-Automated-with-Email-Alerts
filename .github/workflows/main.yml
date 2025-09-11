@@ -2,7 +2,7 @@ name: Amazon MacBook Price Tracker
 
 on:
   schedule:
-    - cron: '* * * * *'  # 30 12 * * * to daily at 6:00 PM Sri Lanka time (12:30 UTC)
+    - cron: '*/10 * * * *'  # 30 12 * * * to daily at 6:00 PM Sri Lanka time (12:30 UTC)
   workflow_dispatch:
 
 permissions:
