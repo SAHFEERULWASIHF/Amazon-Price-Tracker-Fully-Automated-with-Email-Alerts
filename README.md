@@ -28,15 +28,19 @@ Keep track of MacBook prices on **Amazon India** effortlessly! This project auto
 ![Workflow Run](screenshots/workflow-run.png)  
 *Shows the workflow executing successfully on GitHub Actions.*
 
-### 2. CSV Price Log
+### 2. Workflow Automated Logs
+![CSV Price Log](screenshots/workflow-logs.png)  
+*Shows the workflow executing Logs on GitHub Actions.*
+
+### 3. CSV Price Log
 ![CSV Price Log](screenshots/csv-log.png)  
 *Historical price data saved automatically in the repository.*
 
-### 3. Email Notification
+### 4. Email Notification
 ![Email Alert](screenshots/email-alert.png)  
 *Sample email alert triggered when price goes below the threshold.*
 
-### 4. Script Preview
+### 5. Script Preview
 ![Code Preview](screenshots/code-preview.png)  
 *Key parts of `tracker.py` showcasing scraping and CSV update logic.*
 
